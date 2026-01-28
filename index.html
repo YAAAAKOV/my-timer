@@ -19,29 +19,30 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: center;
+                justify-content: flex-start; /* Начинаем сверху */
                 min-height: 100vh;
                 margin: 0;
             }
 
             .header {
-                margin-bottom: 40px;
-                display: flex; /* Выравниваем в ряд */
-                align-items: center; /* Центрируем по вертикали */
-                gap: 12px; /* Расстояние между иконкой и текстом */
+                margin-top: 60px; /* Расстояние от верха */
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
             }
 
             .header h1 {
                 color: var(--primary-blue);
                 font-size: 24px;
                 font-weight: 700;
-                margin: 0; /* Убираем лишние отступы */
+                margin: 0;
             }
 
             .container {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
                 width: 90%;
                 max-width: 1000px;
             }
@@ -55,6 +56,8 @@
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
                 transition: all 0.3s ease;
                 border: 2px solid transparent;
+                cursor: pointer; /* Делаем кликабельным */
+                user-select: none; /* Чтобы текст не выделялся при тапах */
             }
 
             .timer-card.active {
@@ -71,7 +74,7 @@
                 font-size: 12px;
                 font-weight: 700;
                 display: inline-block;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
 
             .time-display {
@@ -89,9 +92,7 @@
                 background: var(--primary-blue);
                 width: 0%;
                 opacity: 0;
-                transition:
-                    width 1s linear,
-                    opacity 0.3s ease;
+                transition: width 1s linear, opacity 0.3s ease;
             }
 
             .timer-card.active .progress-bar {
@@ -100,60 +101,62 @@
 
             .hint {
                 margin-top: 40px;
+                padding: 0 20px;
                 color: var(--gray-text);
                 font-size: 14px;
+                text-align: center; /* Центрируем надпись */
+            }
+
+            /* Мобильная версия */
+            @media (max-width: 600px) {
+                .header { margin-top: 30px; }
+                .container { 
+                    grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобилках */
+                    gap: 10px; 
+                }
+                .timer-card { padding: 16px; }
+                .time-display { font-size: 28px; }
+                .key-badge { margin-bottom: 5px; }
             }
         </style>
     </head>
     <body>
         <div class="header">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48" fill="none">
-                <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M30 4C30 2.89543 29.1046 2 28 2H20C18.8954 2 18 2.89543 18 4C18 5.10457 18.8954 6 20 6L22.0002 6V10.1098C19.0238 10.4388 16.2662 11.4935 13.9081 13.093C13.8666 13.0425 13.8223 12.9935 13.7751 12.9463L10.934 10.1053C10.153 9.32427 8.88667 9.32427 8.10562 10.1053C7.32457 10.8864 7.32457 12.1527 8.10562 12.9337L10.8647 15.6928C7.84758 18.9117 6 23.2401 6 28C6 37.9411 14.0589 46 24 46C33.9411 46 42 37.9411 42 28C42 23.1095 40.0496 18.6745 36.8843 15.4304L39.2677 13.047C40.0487 12.266 40.0487 10.9996 39.2677 10.2186C38.4866 9.43755 37.2203 9.43755 36.4392 10.2186L33.775 12.8829C31.4882 11.4012 28.844 10.4243 26.0002 10.1099V6H28C29.1046 6 30 5.10457 30 4Z"
-                    fill="#0399e9"
-                    fill-opacity="0.2"></path>
-                <path
-                    d="M24 14C20.761 14 17.6223 15.1231 15.1185 17.1779C12.6147 19.2326 10.9009 22.092 10.269 25.2687C9.63711 28.4455 10.1263 31.743 11.6531 34.5996C13.1799 37.4561 15.65 39.6948 18.6424 40.9343C21.6349 42.1738 24.9645 42.3374 28.064 41.3972C31.1635 40.4569 33.8411 38.4711 35.6406 35.778C37.4401 33.0849 38.2501 29.8511 37.9326 26.6278C37.6151 23.4044 36.1898 20.3908 33.8995 18.1005L24 28V14Z"
-                    fill="#0399e9"
-                    fill-opacity="0.4"></path>
-                <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M27.9365 27.286C27.9782 27.5177 28 27.7563 28 28C28 30.2091 26.2091 32 24 32C21.7909 32 20 30.2091 20 28C20 25.7909 21.7909 24 24 24C24.4688 24 24.9188 24.0806 25.3368 24.2288L31.3353 18.2303C32.1163 17.4493 33.3827 17.4493 34.1637 18.2303C34.9448 19.0114 34.9448 20.2777 34.1637 21.0587L27.9365 27.286Z"
-                    fill="#0399e9"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M30 4C30 2.89543 29.1046 2 28 2H20C18.8954 2 18 2.89543 18 4C18 5.10457 18.8954 6 20 6L22.0002 6V10.1098C19.0238 10.4388 16.2662 11.4935 13.9081 13.093C13.8666 13.0425 13.8223 12.9935 13.7751 12.9463L10.934 10.1053C10.153 9.32427 8.88667 9.32427 8.10562 10.1053C7.32457 10.8864 7.32457 12.1527 8.10562 12.9337L10.8647 15.6928C7.84758 18.9117 6 23.2401 6 28C6 37.9411 14.0589 46 24 46C33.9411 46 42 37.9411 42 28C42 23.1095 40.0496 18.6745 36.8843 15.4304L39.2677 13.047C40.0487 12.266 40.0487 10.9996 39.2677 10.2186C38.4866 9.43755 37.2203 9.43755 36.4392 10.2186L33.775 12.8829C31.4882 11.4012 28.844 10.4243 26.0002 10.1099V6H28C29.1046 6 30 5.10457 30 4Z" fill="#0399e9" fill-opacity="0.2"></path>
+                <path d="M24 14C20.761 14 17.6223 15.1231 15.1185 17.1779C12.6147 19.2326 10.9009 22.092 10.269 25.2687C9.63711 28.4455 10.1263 31.743 11.6531 34.5996C13.1799 37.4561 15.65 39.6948 18.6424 40.9343C21.6349 42.1738 24.9645 42.3374 28.064 41.3972C31.1635 40.4569 33.8411 38.4711 35.6406 35.778C37.4401 33.0849 38.2501 29.8511 37.9326 26.6278C37.6151 23.4044 36.1898 20.3908 33.8995 18.1005L24 28V14Z" fill="#0399e9" fill-opacity="0.4"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M27.9365 27.286C27.9782 27.5177 28 27.7563 28 28C28 30.2091 26.2091 32 24 32C21.7909 32 20 30.2091 20 28C20 25.7909 21.7909 24 24 24C24.4688 24 24.9188 24.0806 25.3368 24.2288L31.3353 18.2303C32.1163 17.4493 33.3827 17.4493 34.1637 18.2303C34.9448 19.0114 34.9448 20.2777 34.1637 21.0587L27.9365 27.286Z" fill="#0399e9"></path>
             </svg>
             <h1>Таймеры</h1>
         </div>
 
         <div class="container">
-            <div id="card1" class="timer-card">
+            <div id="card1" class="timer-card" onclick="startTimer('1')">
                 <div class="key-badge">1</div>
                 <p id="display1" class="time-display">00:30</p>
                 <div id="progress1" class="progress-bar"></div>
             </div>
 
-            <div id="card2" class="timer-card">
+            <div id="card2" class="timer-card" onclick="startTimer('2')">
                 <div class="key-badge">2</div>
                 <p id="display2" class="time-display">01:00</p>
                 <div id="progress2" class="progress-bar"></div>
             </div>
 
-            <div id="card3" class="timer-card">
+            <div id="card3" class="timer-card" onclick="startTimer('3')">
                 <div class="key-badge">3</div>
                 <p id="display3" class="time-display">03:00</p>
                 <div id="progress3" class="progress-bar"></div>
             </div>
 
-            <div id="card4" class="timer-card">
+            <div id="card4" class="timer-card" onclick="startTimer('4')">
                 <div class="key-badge">4</div>
                 <p id="display4" class="time-display">04:00</p>
                 <div id="progress4" class="progress-bar"></div>
             </div>
         </div>
 
-        <p class="hint">Нажми цифру на клавиатуре, чтобы запустить или сбросить таймер</p>
+        <p class="hint">Нажми на карточку или цифру на клавиатуре</p>
 
         <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
 
@@ -161,14 +164,7 @@
             const timers = {
                 1: { id: "display1", card: "card1", progress: "progress1", duration: 30, current: 30, interval: null },
                 2: { id: "display2", card: "card2", progress: "progress2", duration: 60, current: 60, interval: null },
-                3: {
-                    id: "display3",
-                    card: "card3",
-                    progress: "progress3",
-                    duration: 180,
-                    current: 180,
-                    interval: null
-                },
+                3: { id: "display3", card: "card3", progress: "progress3", duration: 180, current: 180, interval: null },
                 4: { id: "display4", card: "card4", progress: "progress4", duration: 240, current: 240, interval: null }
             };
 
